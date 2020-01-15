@@ -1,37 +1,58 @@
 <template>
-  <nb-container>
-    <status-bar :barStyle="'light-content'"></status-bar>
-    <image-background :source="launchScreenBg" class="imageContainer">
-      <view class="logoContainer" :style="stylesObj.logoContainerStyle">
-        <image-background
-          :source="launchscreenLogo"
-          class="logo"
-          :style="stylesObj.logoStyle"
-        />
-      </view>
-      <view class="text-container">
-        <nb-h3 :style="{ marginBottom: 8 }" class="text-color-white"
-          >App To ShowCase</nb-h3
-        >
-        <nb-h3 class="text-color-white">NativeBase Components</nb-h3>
-      </view>
-      <view :style="{ marginBottom: 80 }">
-        <nb-button
-          :style="stylesObj.btnContainer"
-          :onPress="handleLetGoBtnPress"
-        >
-          <nb-text> Lets Go!</nb-text>
+  <nb-container :style="{ backgroundColor: '#fff' }">
+    <nb-header>
+      <nb-left>
+        <nb-button transparent :onPress="openDrawerMenu">
+          <nb-icon name="menu" />
         </nb-button>
-      </view>
-    </image-background>
+      </nb-left>
+      <nb-body>
+        <nb-title>Home Sweet Home</nb-title>
+      </nb-body>
+      <nb-right />
+    </nb-header>
+
+    <nb-content padder>
+      <nb-card v-for="item in items" :key="item.screen">
+        <nb-card-item button :onPress="() => openScreen(item.screen)">
+          <nb-left>
+            <nb-icon name="logo-googleplus"></nb-icon>
+            <nb-text>{{ item.title }}</nb-text>
+          </nb-left>
+          <nb-right>
+            <nb-icon name="arrow-forward"></nb-icon>
+          </nb-right>
+        </nb-card-item>
+      </nb-card>
+    </nb-content>
+
+    <nb-footer>
+      <nb-footer-tab>
+        <nb-button :active="tab1" :onPress="toggleTab1">
+          <nb-icon name="apps" :active="tab1" />
+          <nb-text>Apps</nb-text>
+        </nb-button>
+
+        <nb-button :active="tab2" :onPress="toggleTab2">
+          <nb-icon name="camera" :active="tab2" />
+          <nb-text>Camera</nb-text>
+        </nb-button>
+
+        <nb-button :active="tab3" :onPress="toggleTab3">
+          <nb-icon name="compass" :active="tab3" />
+          <nb-text>Compass</nb-text>
+        </nb-button>
+
+        <nb-button :active="tab4" :onPress="toggleTab4">
+          <nb-icon name="contact" :active="tab4" />
+          <nb-text>Contact</nb-text>
+        </nb-button>
+      </nb-footer-tab>
+    </nb-footer>
   </nb-container>
 </template>
 
 <script>
-import { Dimensions, Platform } from "react-native";
-import launchScreenBg from "../../../assets/launchscreen-bg.png";
-import launchscreenLogo from "../../../assets/logo-kitchen-sink.png";
-
 export default {
   props: {
     navigation: {
@@ -40,26 +61,52 @@ export default {
   },
   data() {
     return {
-      launchScreenBg,
-      launchscreenLogo,
-      stylesObj: {
-        logoContainerStyle: {
-          marginTop: Dimensions.get("window").height / 8
+      items: [
+        {
+          title: "Typicode",
+          screen: "TypicodeScreen"
         },
-        logoStyle: {
-          left: Platform.OS === "android" ? 40 : 50,
-          top: Platform.OS === "android" ? 35 : 60
-        },
-        btnContainer: {
-          backgroundColor: "#6faf98",
-          alignSelf: "center"
+        {
+          title: "BitCoin",
+          screen: "FooterScreen"
         }
-      }
+      ],
+      tab1: true,
+      tab2: false,
+      tab3: false,
+      tab4: false
     };
   },
   methods: {
-    handleLetGoBtnPress() {
+    openDrawerMenu() {
       this.navigation.openDrawer();
+    },
+    openScreen(screen) {
+      this.navigation.navigate(screen);
+    },
+    toggleTab1() {
+      this.tab1 = true;
+      this.tab2 = false;
+      this.tab3 = false;
+      this.tab4 = false;
+    },
+    toggleTab2() {
+      this.tab1 = false;
+      this.tab2 = true;
+      this.tab3 = false;
+      this.tab4 = false;
+    },
+    toggleTab3() {
+      this.tab1 = false;
+      this.tab2 = false;
+      this.tab3 = true;
+      this.tab4 = false;
+    },
+    toggleTab4() {
+      this.tab1 = false;
+      this.tab2 = false;
+      this.tab3 = false;
+      this.tab4 = true;
     }
   }
 };

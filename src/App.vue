@@ -32,6 +32,12 @@ import BasicFooterScreen from "./screens/footer/basicFooter";
 import IconFooterScreen from "./screens/footer/iconFooter";
 import IconTextFooterScreen from "./screens/footer/iconTextFooter";
 
+import TypicodeScreen from "./screens/typicode";
+import TypicodePostsScreen from "./screens/typicode/screens/Posts";
+import TypicodePostsCommentsScreen from "./screens/typicode/screens/PostsComments";
+
+import TypicodeAlbumsScreen from "./screens/typicode/screens/Albums";
+
 const Drawer = createDrawerNavigator(
   {
     Home: { screen: HomeScreen },
@@ -65,7 +71,13 @@ const AppNavigation = createAppContainer(
       BadgeFooter: { screen: BadgeFooterScreen },
       BasicFooter: { screen: BasicFooterScreen },
       IconFooter: { screen: IconFooterScreen },
-      IconText: { screen: IconTextFooterScreen }
+      IconText: { screen: IconTextFooterScreen },
+
+      TypicodeScreen: { screen: TypicodeScreen },
+      TypicodePostsScreen: { screen: TypicodePostsScreen },
+      TypicodePostsCommentsScreen: { screen: TypicodePostsCommentsScreen },
+
+      TypicodeAlbumsScreen: { screen: TypicodeAlbumsScreen }
     },
     {
       initialRouteName: "Drawer",
