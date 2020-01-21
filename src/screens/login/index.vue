@@ -1,13 +1,7 @@
 <template>
-  <nb-container v-if="loaded" :style="{ backgroundColor: '#fff' }">
-    <nb-header>
-      <nb-body>
-        <nb-title>
-          Login
-        </nb-title>
-      </nb-body>
-    </nb-header>
+  <nb-container v-if="loaded" class="container">
     <nb-content padder>
+      <image :source="drawerImage" :style="stylesObj.drawerImageStyle" />
       <nb-form>
         <nb-item
           :error="
@@ -40,14 +34,20 @@
       </view>
     </nb-content>
   </nb-container>
-  <nb-spinner v-if="!loaded"></nb-spinner>
+  <nb-spinner v-else></nb-spinner>
 </template>
 
 <script>
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Dimensions, Platform } from "react-native";
 import { Toast } from "native-base";
 import { required, email } from "vuelidate/lib/validators";
 import store from "../../store";
+
+import drawerCover from "../../../assets/drawer-cover.png";
+import drawerImage from "../../../assets/logo-kitchen-sink.png";
+
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 export default {
   props: {
@@ -71,9 +71,22 @@ export default {
   },
   data() {
     return {
+      drawerCover,
+      drawerImage,
       emailValue: "",
       password: "",
-      loaded: false
+      loaded: false,
+      stylesObj: {
+        drawerImageStyle: {
+          alignSelf: "center",
+          left: Platform.OS === "android" ? deviceWidth / 3 : deviceWidth / 9,
+          top:
+            Platform.OS === "android" ? deviceHeight / 12 : deviceHeight / 12,
+          resizeMode: "cover",
+          height: 150,
+          width: 420
+        }
+      }
     };
   },
   created() {
