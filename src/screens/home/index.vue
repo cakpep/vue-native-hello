@@ -9,7 +9,17 @@
       <nb-body>
         <nb-title>Home Sweet Home</nb-title>
       </nb-body>
-      <nb-right />
+      <nb-right>
+        <nb-button transparent>
+          <nb-icon name="search" />
+        </nb-button>
+        <nb-button transparent>
+          <nb-icon name="heart" />
+        </nb-button>
+        <nb-button transparent :onPress="signOut">
+          <nb-icon name="md-log-out" />
+        </nb-button>
+      </nb-right>
     </nb-header>
 
     <nb-content padder>
@@ -53,6 +63,15 @@
 </template>
 
 <script>
+import { NavigationActions, StackActions } from "vue-native-router";
+import { Alert } from "react-native";
+import store from "../../store";
+
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: "Login" })]
+});
+
 export default {
   props: {
     navigation: {
@@ -84,6 +103,27 @@ export default {
     openScreen(screen) {
       this.navigation.navigate(screen);
     },
+    signOut() {
+      Alert.alert(
+        "Logout confirmation",
+        "Are you sure want to logout?",
+        [
+          {
+            text: "YES",
+            onPress: () => {
+              store.dispatch("LOGOUT", () =>
+                this.navigation.dispatch(resetAction)
+              );
+            }
+          },
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed")
+          }
+        ],
+        { cancelable: false }
+      );
+    },
     toggleTab1() {
       this.tab1 = true;
       this.tab2 = false;
@@ -111,34 +151,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.imageContainer {
-  flex: 1;
-}
-.text-color-primary {
-  color: blue;
-  font-family: Roboto;
-}
-.logoContainer {
-  flex: 1;
-  margin-bottom: 30;
-}
-.logo {
-  position: absolute;
-  width: 280;
-  height: 100;
-}
-.text-container {
-  align-items: center;
-  margin-bottom: 50;
-  background-color: transparent;
-}
-.text-color-white {
-  color: white;
-}
-.button-container {
-  background-color: #6faf98;
-  align-self: center;
-}
-</style>
