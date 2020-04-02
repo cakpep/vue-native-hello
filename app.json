@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "hello vn",
+    "name": "Hello Vue Native",
     "slug": "vue-native-hello-v",
     "privacy": "public",
     "sdkVersion": "36.0.0",

@@ -12,6 +12,9 @@
         :style="stylesObj.drawerImageObj"
       />
       <nb-list>
+        <nb-list-item noBorder>
+          <nb-text>Hi, {{ userEmail }}</nb-text>
+        </nb-list-item>
         <nb-list-item
           v-for="data in datas"
           :key="data.route"
@@ -52,6 +55,7 @@
 import { Dimensions, Platform } from "react-native";
 import drawerCover from "../../../assets/drawer-cover.png";
 import drawerImage from "../../../assets/logo-kitchen-sink.png";
+import store from "../../store";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -60,6 +64,11 @@ export default {
   props: {
     navigation: {
       type: Object
+    }
+  },
+  computed: {
+    userEmail() {
+      return store.state.userObj.email;
     }
   },
   data() {

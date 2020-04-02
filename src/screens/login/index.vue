@@ -90,28 +90,37 @@ export default {
     };
   },
   created() {
-    AsyncStorage.getItem("email").then(val => {
-      if (val) {
-        this.loaded = true;
-        this.navigation.navigate("Home");
-        store.dispatch("SET_USER", { userObj: { email: val } });
-      } else {
-        this.loaded = true;
-      }
-    });
+    this.loadUserStorage();
   },
   methods: {
+    loadUserStorage() {
+      AsyncStorage.getItem("email").then(val => {
+        if (val) {
+          this.navigation.navigate("Home");
+          store.dispatch("SET_USER", { userObj: { email: val } });
+        }
+        this.loaded = true;
+      });
+    },
+    loginValidation() {
+      let errMsg = null;
+      if (!this.emailValue) {
+        errMsg = "Email is required";
+      } else if (this.$v.emailValue.$invalid) {
+        errMsg = "Email is invalid";
+      } else if (!this.password) {
+        errMsg = "Password is required";
+      }
+      if (errMsg != null) {
+        Toast.show({ text: errMsg, position: "top" });
+      }
+      return errMsg == null;
+    },
     login() {
-      if (this.emailValue && this.password && !this.$v.emailValue.$invalid) {
+      if (this.loginValidation()) {
         store.dispatch("LOGIN", {
           userObj: { email: this.emailValue },
           navigate: this.navigation.navigate
-        });
-      } else {
-        Toast.show({
-          text: "Invalid Email or Password",
-          buttonText: "Okay",
-          position: "top"
         });
       }
     }
